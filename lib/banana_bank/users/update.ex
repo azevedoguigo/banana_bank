@@ -10,7 +10,6 @@ defmodule BananaBank.Users.Update do
   end
 
   defp update(user, params) do
-    IO.inspect(params)
     user
     |> User.changeset(params)
     |> Repo.update()

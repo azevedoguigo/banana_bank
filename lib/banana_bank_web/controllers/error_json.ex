@@ -13,11 +13,18 @@ defmodule BananaBankWeb.ErrorJSON do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
-  def error(%{status_code: :not_found}) do
+  def error(%{error_data: %{status: :not_found} = error_data}) do
      %{
         status: 404,
-        message: "Usuário não cadastrado."
+        message: error_data.message
      }
+  end
+
+  def error(%{error_data: %{status: :bad_request} = error_data}) do
+    %{
+      status: 400,
+      message: error_data.message
+    }
   end
 
   def error(%{changeset: changeset}) do

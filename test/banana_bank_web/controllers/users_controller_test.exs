@@ -7,10 +7,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "create/2" do
     test "success in creating a user.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo@example.com",
-        password: "supersenha",
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "01001000"
       }
 
       response =
@@ -20,7 +20,7 @@ defmodule BananaBankWeb.UsersControllerTest do
 
       assert %{
         "data" => %{
-            "cep" => "12345678",
+            "cep" => "01001000",
             "email" => "azevedoguigo@example.com",
             "id" => _id,
             "name" => "azevedoguigo"
@@ -31,10 +31,10 @@ defmodule BananaBankWeb.UsersControllerTest do
 
     test "When there are invalid parameters, it returns an error.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo.example.com", # Invalid email format.
-        password: "123", # Very short password.
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo.example.com", # Invalid email format.
+        "password" => "123", # Very short password.
+        "cep" => "01001000"
       }
 
       response =
@@ -54,10 +54,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "get/2" do
     test "When the id is a registered user, it returns the user.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo@example.com",
-        password: "supersenha",
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "01001000"
       }
 
       {:ok, %User{id: user_id}} = Users.create(params)
@@ -69,7 +69,7 @@ defmodule BananaBankWeb.UsersControllerTest do
 
       assert %{
         "data" => %{
-          "cep" => "12345678",
+          "cep" => "01001000",
           "email" => "azevedoguigo@example.com",
           "id" => user_id,
           "name" => "azevedoguigo"
@@ -90,10 +90,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "update/2" do
     test "Updates and returns the user as long as the parameters are valid.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo@example.com",
-        password: "supersenha",
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "01001000"
       }
 
       {:ok, %User{id: user_id}} = Users.create(params)
@@ -109,7 +109,7 @@ defmodule BananaBankWeb.UsersControllerTest do
 
       assert %{
         "data" => %{
-          "cep" => "12345678",
+          "cep" => "01001000",
           "email" => "azevedoguigo@example.com",
           "id" => user_id,
           "name" => "updated name"
@@ -133,10 +133,10 @@ defmodule BananaBankWeb.UsersControllerTest do
 
     test "Returns an error if the parameters are invalid.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo@example.com",
-        password: "supersenha",
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "01001000"
       }
 
       {:ok, %User{id: user_id}} = Users.create(params)
@@ -155,10 +155,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "delete/2" do
     test "Deletes a user if the id is linked to a user.", %{conn: conn} do
       params = %{
-        name: "azevedoguigo",
-        email: "azevedoguigo@example.com",
-        password: "supersenha",
-        cep: "12345678"
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "01001000"
       }
 
       {:ok, %User{id: user_id}} = Users.create(params)
@@ -170,7 +170,7 @@ defmodule BananaBankWeb.UsersControllerTest do
 
       assert %{
         "data" => %{
-          "cep" => "12345678",
+          "cep" => "01001000",
           "email" => "azevedoguigo@example.com",
           "id" => user_id,
           "name" => "azevedoguigo"

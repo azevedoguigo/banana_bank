@@ -83,7 +83,7 @@ defmodule BananaBankWeb.UsersControllerTest do
         |> get(~p"/api/users/2077")
         |> json_response(:not_found)
 
-      assert %{"message" => "Usuário não cadastrado.", "status" => 404} == response
+      assert %{"message" => "Usuário não encontrado!", "status" => 404} == response
     end
   end
 
@@ -128,7 +128,7 @@ defmodule BananaBankWeb.UsersControllerTest do
         |> put(~p"/api/users/2077", params_to_update)
         |> json_response(:not_found)
 
-      assert %{"message" => "Usuário não cadastrado.", "status" => 404} == response
+      assert %{"message" => "Usuário não encontrado!", "status" => 404} == response
     end
 
     test "Returns an error if the parameters are invalid.", %{conn: conn} do
@@ -185,7 +185,7 @@ defmodule BananaBankWeb.UsersControllerTest do
         |> delete(~p"/api/users/2077")
         |> json_response(:not_found)
 
-      assert %{"message" => "Usuário não cadastrado.", "status" => 404} == response
+      assert %{"message" => "Usuário não encontrado!", "status" => 404} == response
     end
   end
 end

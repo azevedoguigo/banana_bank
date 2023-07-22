@@ -4,8 +4,10 @@ defmodule BananaBank.Users.Get do
 
   def call(id) do
     case Repo.get(User, id) do
-      nil -> {:error, :not_found}
-      user -> {:ok, user}
+      nil ->
+        {:error, %{status: :not_found, message: "Usuário não encontrado!"}}
+      user ->
+        {:ok, user}
     end
   end
 end

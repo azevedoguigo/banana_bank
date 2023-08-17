@@ -1,9 +1,17 @@
 defmodule BananaBank.ViaCep.Client do
+  @moduledoc """
+  Provide the function responsible for making requests to the ViaCEP external service for CEP validation.
+  """
+
+  @behaviour BananaBank.ViaCep.ClientBehavior
+
   use Tesla
 
-  @default_url "https://viacep.com.br/ws"
   plug Tesla.Middleware.JSON
 
+  @default_url "https://viacep.com.br/ws"
+
+  @impl BananaBank.ViaCep.ClientBehavior
   def call(url \\ @default_url, cep) do
     "#{url}/#{cep}/json"
     |> get()

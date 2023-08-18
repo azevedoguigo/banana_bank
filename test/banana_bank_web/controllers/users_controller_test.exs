@@ -76,6 +76,26 @@ defmodule BananaBankWeb.UsersControllerTest do
         }
       } == response
     end
+
+    test "Returns an error message and status code when the CEP is not found.", %{conn: conn} do
+      params = %{
+        "name" => "azevedoguigo",
+        "email" => "azevedoguigo@example.com",
+        "password" => "supersenha",
+        "cep" => "12345678"
+      }
+
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "12345678" ->
+        {:error, %{message: "CEP não encontrado!", status: :not_found}}
+      end)
+
+      response =
+        conn
+        |> post(~p"/api/users", params)
+        |> json_response(:not_found)
+
+      assert %{"message" => "CEP não encontrado!", "status" => 404} == response
+    end
   end
 
   describe "get/2" do

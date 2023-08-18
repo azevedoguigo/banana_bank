@@ -1,17 +1,40 @@
 defmodule BananaBankWeb.UsersControllerTest do
   use BananaBankWeb.ConnCase
 
+  import Mox
+
   alias BananaBank.Users.User
   alias BananaBank.Users
 
+  setup do
+    params = %{
+      "name" => "azevedoguigo",
+      "email" => "azevedoguigo@example.com",
+      "password" => "supersenha",
+      "cep" => "01001000"
+    }
+
+    body = %{
+      "bairro" => "Sé",
+      "cep" => "01001-000",
+      "complemento" => "lado ímpar",
+      "ddd" => "11",
+      "gia" => "1004",
+      "ibge" => "3550308",
+      "localidade" => "São Paulo",
+      "logradouro" => "Praça da Sé",
+      "siafi" => "7107",
+      "uf" => "SP"
+    }
+
+    {:ok, %{user_params: params, body: body}}
+  end
+
   describe "create/2" do
-    test "success in creating a user.", %{conn: conn} do
-      params = %{
-        "name" => "azevedoguigo",
-        "email" => "azevedoguigo@example.com",
-        "password" => "supersenha",
-        "cep" => "01001000"
-      }
+    test "Creates and returns the user when all parameters are valid.", %{conn: conn, user_params: params, body: body} do
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       response =
         conn
@@ -29,7 +52,7 @@ defmodule BananaBankWeb.UsersControllerTest do
         } = response
     end
 
-    test "When there are invalid parameters, it returns an error.", %{conn: conn} do
+    test "When there are invalid parameters, it returns an error.", %{conn: conn, body: body} do
       params = %{
         "name" => "azevedoguigo",
         "email" => "azevedoguigo.example.com", # Invalid email format.
@@ -37,10 +60,14 @@ defmodule BananaBankWeb.UsersControllerTest do
         "cep" => "01001000"
       }
 
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
+
       response =
         conn
         |> post(~p"/api/users", params)
-        |>json_response(:bad_request)
+        |> json_response(:bad_request)
 
       assert %{
         "errors" => %{
@@ -52,13 +79,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   end
 
   describe "get/2" do
-    test "When the id is a registered user, it returns the user.", %{conn: conn} do
-      params = %{
-        "name" => "azevedoguigo",
-        "email" => "azevedoguigo@example.com",
-        "password" => "supersenha",
-        "cep" => "01001000"
-      }
+    test "When the id is a registered user, it returns the user.", %{conn: conn, user_params: params, body: body} do
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       {:ok, %User{id: user_id}} = Users.create(params)
 
@@ -88,13 +112,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   end
 
   describe "update/2" do
-    test "Updates and returns the user as long as the parameters are valid.", %{conn: conn} do
-      params = %{
-        "name" => "azevedoguigo",
-        "email" => "azevedoguigo@example.com",
-        "password" => "supersenha",
-        "cep" => "01001000"
-      }
+    test "Updates and returns the user as long as the parameters are valid.", %{conn: conn, user_params: params, body: body} do
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       {:ok, %User{id: user_id}} = Users.create(params)
 
@@ -131,13 +152,10 @@ defmodule BananaBankWeb.UsersControllerTest do
       assert %{"message" => "Usuário não encontrado!", "status" => 404} == response
     end
 
-    test "Returns an error if the parameters are invalid.", %{conn: conn} do
-      params = %{
-        "name" => "azevedoguigo",
-        "email" => "azevedoguigo@example.com",
-        "password" => "supersenha",
-        "cep" => "01001000"
-      }
+    test "Returns an error if the parameters are invalid.", %{conn: conn, user_params: params, body: body} do
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       {:ok, %User{id: user_id}} = Users.create(params)
 
@@ -153,13 +171,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   end
 
   describe "delete/2" do
-    test "Deletes a user if the id is linked to a user.", %{conn: conn} do
-      params = %{
-        "name" => "azevedoguigo",
-        "email" => "azevedoguigo@example.com",
-        "password" => "supersenha",
-        "cep" => "01001000"
-      }
+    test "Deletes a user if the id is linked to a user.", %{conn: conn, user_params: params, body: body} do
+      expect(BananaBank.ViaCep.ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       {:ok, %User{id: user_id}} = Users.create(params)
 

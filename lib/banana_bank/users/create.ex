@@ -1,4 +1,8 @@
 defmodule BananaBank.Users.Create do
+  @moduledoc """
+  This module contains functions related to creating users.
+  """
+
   alias BananaBank.Users.User
   alias BananaBank.Repo
   alias BananaBank.ViaCep.Client, as: ViaCepClient

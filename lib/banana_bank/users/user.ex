@@ -43,7 +43,7 @@ defmodule BananaBank.Users.User do
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = chageset) do
-      change(chageset, Argon2.add_hash(password))
+    change(chageset, Argon2.add_hash(password))
   end
   defp add_password_hash(chageset), do: chageset
 end

@@ -16,6 +16,7 @@ defmodule BananaBank.Accounts.Transaction do
       |> withdraw(from_account, value)
       |> deposit(to_account, value)
       |> Repo.transaction()
+      |> handle_transaction()
     else
       nil -> {:error, :not_found}
       :error -> {:error, "Invalid value"}
@@ -33,4 +34,7 @@ defmodule BananaBank.Accounts.Transaction do
     changeset = Account.changeset(to_account, %{balance: new_balance})
     Multi.update(multi, :deposit, changeset)
   end
+
+  defp handle_transaction({:ok, _result} = result), do: result
+  defp handle_transaction({:error, _op, reason, _}), do: reason
 end

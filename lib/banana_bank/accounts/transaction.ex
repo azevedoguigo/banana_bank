@@ -7,7 +7,7 @@ defmodule BananaBank.Accounts.Transaction do
   alias BananaBank.Accounts.Account
   alias BananaBank.Repo
 
-  def call(from_id, to_id, value) do
+  def call(%{"from_id" => from_id, "to_id" => to_id, "value" => value}) do
     with %Account{} = from_account <- Repo.get(Account, from_id),
          %Account{} = to_account <- Repo.get(Account, to_id),
          {:ok, value} <- Decimal.cast(value) do
@@ -22,6 +22,8 @@ defmodule BananaBank.Accounts.Transaction do
       :error -> {:error, "Invalid value"}
     end
   end
+
+  def call(_), do: {:error, "Invalid params!"}
 
   defp withdraw(multi, from_account, value) do
     new_balance = Decimal.sub(from_account.balance, value)

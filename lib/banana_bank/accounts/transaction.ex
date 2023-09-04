@@ -11,7 +11,6 @@ defmodule BananaBank.Accounts.Transaction do
     with %Account{} = from_account <- Repo.get(Account, from_id),
          %Account{} = to_account <- Repo.get(Account, to_id),
          {:ok, value} <- Decimal.cast(value) do
-
       Multi.new()
       |> withdraw(from_account, value)
       |> deposit(to_account, value)
@@ -38,5 +37,5 @@ defmodule BananaBank.Accounts.Transaction do
   end
 
   defp handle_transaction({:ok, _result} = result), do: result
-  defp handle_transaction({:error, _op, reason, _}), do: reason
+  defp handle_transaction({:error, _op, reason, _}), do: {:error, reason}
 end

@@ -18,7 +18,7 @@ defmodule BananaBank.Accounts.Transaction do
       |> handle_transaction()
     else
       nil -> {:error, :not_found}
-      :error -> {:error, "Invalid value"}
+      :error -> {:error, "Invalid value!"}
     end
   end
 

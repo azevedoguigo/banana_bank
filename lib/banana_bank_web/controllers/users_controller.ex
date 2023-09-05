@@ -1,6 +1,7 @@
 defmodule BananaBankWeb.UsersController do
   use BananaBankWeb, :controller
 
+  alias BananaBankWeb.Token
   alias BananaBank.Users
   alias Users.User
 
@@ -35,6 +36,16 @@ defmodule BananaBankWeb.UsersController do
       conn
       |> put_status(:ok)
       |> render(:delete, user: user)
+    end
+  end
+
+  def login(conn, credentials) do
+    with {:ok, %User{} = user} <- Users.auth(credentials) do
+      token = Token.sign(user)
+
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
     end
   end
 end
